@@ -1,0 +1,88 @@
+{
+  "project_info": {
+    "project_number": "804082772807",
+    "firebase_url": "https://baarbo-a8a95.firebaseio.com",
+    "project_id": "baarbo-a8a95",
+    "storage_bucket": "baarbo-a8a95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804082772807:android:dc4af98b57db831df8fa62",
+        "android_client_info": {
+          "package_name": "com.example.baarbo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804082772807-bev5t4b1q44feevsqo83g02rrpsppem0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPjPgRK1wajEiL7QzjqWZFVi0EVeYS8IY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804082772807-bev5t4b1q44feevsqo83g02rrpsppem0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
+
+
+
+**********************************************************************************************************************************************************************************************
+_____________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+{
+  "project_info": {
+    "project_number": "510789390462",
+    "firebase_url": "https://chat2-app-6bf49.firebaseio.com",
+    "project_id": "chat2-app-6bf49",
+    "storage_bucket": "chat2-app-6bf49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510789390462:android:3c70532b17ce416f85c82f",
+        "android_client_info": {
+          "package_name": "com.example.chat2_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510789390462-ra4rbtd0ig1bk0pniv0g66bin2bhsv3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs6UVFBeaaRvfJbomU7HvcSErsDMAEEz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510789390462-ra4rbtd0ig1bk0pniv0g66bin2bhsv3p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

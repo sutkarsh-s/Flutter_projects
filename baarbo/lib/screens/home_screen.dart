@@ -1,75 +1,50 @@
-import 'package:flutter/material.dart';
-import '../lib/constants.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+
+import '../models/catalogue.dart';
+import '../widgets/home.dart';
+
+class CatalogueOverviewScreen extends StatelessWidget {
+  final List<Catalogue> loadedProducts = [
+    Catalogue(
+      id: 'p1',
+      imageUrl:
+          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+    ),
+    Catalogue(
+      id: 'p2',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
+    ),
+    Catalogue(
+      id: 'p3',
+      imageUrl:
+          'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
+    ),
+    Catalogue(
+      id: 'p4',
+      imageUrl:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundBlack,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Container(
-                  height: 80,
-                  child: Image.asset(
-                    './images/logo.png',
-                  )),
-              Column(
-                children: <Widget>[
-                  Text(
-                    'Welcome',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Sign up to get started',
-                    style: TextStyle(color: Colors.white.withOpacity(1.0)),
-                  ),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text("CONTINUE",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontFamily: 'Raleway-Regular')),
-                    onPressed: () {},
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 150, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(40),
-                    ),
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'Already have an account?',
-                        style: TextStyle(color: Colors.white.withOpacity(1.0)),
-                      ),
-                      InkWell(
-                        child: Text(
-                          ' Sign in',
-                          style: TextStyle(color: Colors.blue.withOpacity(1.0)),
-                        ),
-                        // onTap: () => ,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text('Baarbo'),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10.0),
+        itemCount: loadedProducts.length,
+        itemBuilder: (ctx, i) => HomeScreen(
+          loadedProducts[i].id,
+          loadedProducts[i].imageUrl,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
       ),
     );

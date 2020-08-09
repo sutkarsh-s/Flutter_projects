@@ -1,37 +1,53 @@
+import 'package:baarbo/screens/home_overview_screen.dart';
 import 'package:flutter/material.dart';
+import '../widgets/main_drawer.dart';
+import '../constants.dart';
 
 import './contact_screen.dart';
-import 'account_screen.dart';
+import './account_screen.dart';
 import './coupons_screen.dart';
-import './home_screen.dart';
+import '../screens/search_store_screen.dart';
+//import '../widgets/home.dart';
 
 class TabsScreen extends StatefulWidget {
+  static const routeName = '/Tabs';
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Map<String, Object>> _pages = [
-    {
-      'page': HomeScreen(),
-      'title': 'Home',
-    },
-    {
-      'page': CouponsScreen(),
-      'title': 'Coupons',
-    },
-    {
-      'page': ContactScreen(),
-      'title': 'Contact',
-    },
-    {
-      'page': AccountScreen(),
-      'title': 'Account',
-    },
-  ];
+  List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  bool _tap = true;
+
+  @override
+  void initState() {
+    _pages = [
+      {
+        'page': CatalogueScreen(),
+        'title': 'Home',
+      },
+      {
+        'page': CouponsScreen(),
+        'title': 'Coupons',
+      },
+      {
+        'page': ContactScreen(),
+        'title': 'Contact',
+      },
+      {
+        'page': AccountScreen(),
+        'title': 'Account',
+      },
+    ];
+
+    // bool _tap = true;
+
+    super.initState();
+  }
 
   void _selectPage(int index) {
+    _tap = false;
     setState(() {
       _selectedPageIndex = index;
     });
@@ -39,38 +55,81 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_pages[_selectedPageIndex]['title']),
+    print(_tap);
+    if (!_tap)
+      return Scaffold(
+        backgroundColor: kBackgroundBlack,
+        appBar: AppBar(
+          title: Text(_pages[_selectedPageIndex]['title']),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SearchStore.routeName);
+                  },
+                  child: Icon(
+                    Icons.search,
+                    size: 26.0,
+                  ),
+                )),
+          ],
+        ),
+        drawer: MainDrawer(),
+        body: bodyContent,
+        bottomNavigationBar: bottomNavigationBar,
+      );
+    else
+      return bottomNavigationBar;
+  }
+
+  Widget get bodyContent {
+    return _pages[_selectedPageIndex]['page'];
+  }
+
+  Widget get bottomNavigationBar {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(30),
+        topLeft: Radius.circular(30),
       ),
-      drawer: MainDrawer(),
-      body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
+      child: BottomNavigationBar(
         onTap: _selectPage,
-        backgroundColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.white,
         selectedItemColor: Theme.of(context).accentColor,
         currentIndex: _selectedPageIndex,
         // type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.home),
+            backgroundColor: Colors.white,
+            icon: Icon(
+              Icons.home,
+              color: Colors.black,
+            ),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.collections),
+            backgroundColor: Colors.white,
+            icon: Icon(
+              Icons.collections,
+              color: Colors.black,
+            ),
             title: Text('Coupons'),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.call),
+            backgroundColor: Colors.white,
+            icon: Icon(
+              Icons.call,
+              color: Colors.black,
+            ),
             title: Text('Contact'),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.account_circle),
+            backgroundColor: Colors.white,
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.black,
+            ),
             title: Text('Account'),
           ),
         ],

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "804082772807",
+    "firebase_url": "https://baarbo-a8a95.firebaseio.com",
+    "project_id": "baarbo-a8a95",
+    "storage_bucket": "baarbo-a8a95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804082772807:android:dc4af98b57db831df8fa62",
+        "android_client_info": {
+          "package_name": "com.example.baarbo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804082772807-9dvidda0jm045gnbb88svcr8e87ghkor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.baarbo",
+            "certificate_hash": "3d0963ce435d1115b4a4a08ab2805df03cf65023"
+          }
+        },
+        {
+          "client_id": "804082772807-bev5t4b1q44feevsqo83g02rrpsppem0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPjPgRK1wajEiL7QzjqWZFVi0EVeYS8IY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804082772807-bev5t4b1q44feevsqo83g02rrpsppem0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
