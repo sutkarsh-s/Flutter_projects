@@ -1,236 +1,95 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'cart.dart';
-import 'dish_object.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:travel_budget/services/custom_colors.dart';
+import 'package:travel_budget/views/navigation_view.dart';
+import 'package:travel_budget/views/first_view.dart';
+import 'package:travel_budget/views/sign_up_view.dart';
+import 'package:travel_budget/widgets/provider_widget.dart';
+import 'package:travel_budget/services/auth_service.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:travel_budget/services/admob_service.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
-      home: MyHomePage(title: 'Place order'),
-    );
-  }
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseAdMob.instance.initialize(appId: AdMobService().getAdMobAppId());
+  runApp(MyApp());
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
+class MyApp extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List<Dish> _dishes = List<Dish>();
-
-  List<Dish> _cartList = List<Dish>();
-
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  var colors = CustomColors(WidgetsBinding.instance.window.platformBrightness);
   @override
   void initState() {
     super.initState();
-    _populateDishes();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    setState(() {
+      colors = CustomColors(WidgetsBinding.instance.window.platformBrightness);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0, top: 8.0),
-            child: GestureDetector(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Icon(
-                    Icons.shopping_cart,
-                    size: 36.0,
-                  ),
-                  if (_cartList.length > 0)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: CircleAvatar(
-                        radius: 8.0,
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        child: Text(
-                          _cartList.length.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              onTap: () {
-                if (_cartList.isNotEmpty)
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Cart(_cartList),
-                    ),
-                  );
-              },
-            ),
-          )
-        ],
+    return Provider(
+      auth: AuthService(),
+      db: Firestore.instance,
+      colors: colors,
+      child: MaterialApp(
+        title: "Travel Budget App",
+        theme: ThemeData(
+            brightness: Brightness.light,
+            primarySwatch: Colors.blue,
+            textTheme:
+                TextTheme(bodyText2: GoogleFonts.bitter(fontSize: 14.0))),
+        darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.blue,
+            textTheme:
+                TextTheme(bodyText1: GoogleFonts.bitter(fontSize: 14.0))),
+        home: HomeController(),
+        routes: <String, WidgetBuilder>{
+          '/home': (BuildContext context) => HomeController(),
+          '/signUp': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.signUp),
+          '/signIn': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.signIn),
+          '/anonymousSignIn': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.anonymous),
+          '/convertUser': (BuildContext context) =>
+              SignUpView(authFormType: AuthFormType.convert),
+        },
       ),
-      body: _buildGridView(),
     );
   }
+}
 
-  ListView _buildListView() {
-    return ListView.builder(
-      itemCount: _dishes.length,
-      itemBuilder: (context, index) {
-        var item = _dishes[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 8.0,
-            vertical: 2.0,
-          ),
-          child: Card(
-            elevation: 4.0,
-            child: ListTile(
-              leading: Icon(
-                item.icon,
-                color: item.color,
-              ),
-              title: Text(item.name),
-              trailing: GestureDetector(
-                child: (!_cartList.contains(item))
-                    ? Icon(
-                        Icons.add_circle,
-                        color: Colors.green,
-                      )
-                    : Icon(
-                        Icons.remove_circle,
-                        color: Colors.red,
-                      ),
-                onTap: () {
-                  setState(() {
-                    if (!_cartList.contains(item))
-                      _cartList.add(item);
-                    else
-                      _cartList.remove(item);
-                  });
-                },
-              ),
-            ),
-          ),
-        );
+class HomeController extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final AuthService auth = Provider.of(context).auth;
+    return StreamBuilder<String>(
+      stream: auth.onAuthStateChanged,
+      builder: (context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final bool signedIn = snapshot.hasData;
+          return signedIn ? Home() : FirstView();
+        }
+        return CircularProgressIndicator();
       },
     );
-  }
-
-  GridView _buildGridView() {
-    return GridView.builder(
-        padding: const EdgeInsets.all(4.0),
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemCount: _dishes.length,
-        itemBuilder: (context, index) {
-          var item = _dishes[index];
-          return Card(
-              elevation: 4.0,
-              child: Stack(
-                fit: StackFit.loose,
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        item.icon,
-                        color: (_cartList.contains(item))
-                            ? Colors.grey
-                            : item.color,
-                        size: 100.0,
-                      ),
-                      Text(
-                        item.name,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subhead,
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      right: 8.0,
-                      bottom: 8.0,
-                    ),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: GestureDetector(
-                        child: (!_cartList.contains(item))
-                            ? Icon(
-                                Icons.add_circle,
-                                color: Colors.green,
-                              )
-                            : Icon(
-                                Icons.remove_circle,
-                                color: Colors.red,
-                              ),
-                        onTap: () {
-                          setState(() {
-                            if (!_cartList.contains(item))
-                              _cartList.add(item);
-                            else
-                              _cartList.remove(item);
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ));
-        });
-  }
-
-  void _populateDishes() {
-    var list = <Dish>[
-      Dish(
-        name: 'Chicken Zinger',
-        icon: Icons.fastfood,
-        color: Colors.amber,
-      ),
-      Dish(
-        name: 'Chicken Zinger without chicken',
-        icon: Icons.print,
-        color: Colors.deepOrange,
-      ),
-      Dish(
-        name: 'Rice',
-        icon: Icons.child_care,
-        color: Colors.brown,
-      ),
-      Dish(
-        name: 'Beef burger without beef',
-        icon: Icons.whatshot,
-        color: Colors.green,
-      ),
-      Dish(
-        name: 'Laptop without OS',
-        icon: Icons.laptop,
-        color: Colors.purple,
-      ),
-      Dish(
-        name: 'Mac wihout macOS',
-        icon: Icons.laptop_mac,
-        color: Colors.blueGrey,
-      ),
-    ];
-
-    setState(() {
-      _dishes = list;
-    });
   }
 }

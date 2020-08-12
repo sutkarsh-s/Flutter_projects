@@ -17,13 +17,13 @@ class GenderPalette extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              size: 80.0,
+              size: 60.0,
             ),
             Padding(
               padding: EdgeInsets.all(10.0),
               child: Text(
                 genderText,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 22, color: Colors.white),
               ),
             )
           ],

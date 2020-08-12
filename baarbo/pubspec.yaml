@@ -43,7 +43,12 @@ dependencies:
   geolocator: ^5.3.2+2
   carousel_slider: ^2.2.1
   carousel_pro: ^1.0.0
-
+  date_format: ^1.0.8
+  smooth_star_rating: ^1.1.1
+  flutter_rating: ^0.0.2
+  flutter_rating_bar: ^3.0.1+1
+  image_picker: ^0.6.7+4
+  firebase_storage: ^3.1.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
@@ -67,6 +72,7 @@ flutter:
     - assets/friend1.jpg
     - assets/friend2.jpg
     - assets/images/hair.png
+    - assets/images/empty_user.png
     - assets/images/beard.jpg
     - assets/images/facial.jpg
     - assets/images/massage2.png
@@ -76,6 +82,22 @@ flutter:
     - assets/images/image2.jpg
     - assets/images/image3.jpg
     - assets/images/image5.jpg
+    - images/ic_logo.png
+    - images/ic_thank_you.png
+    - images/ic_about_us.png
+    - images/ic_invite_friends.png
+    - images/ic_notification.png
+    - images/ic_payment.png
+    - images/ic_refer_friends_bg.jpg
+    - images/ic_logout.png
+    - images/ic_reward_credits.png
+    - images/ic_promo_code.png
+    - images/ic_settings.png
+    - images/ic_qr_code.svg
+    - images/ic_qr_code.png
+    - images/ic_support.png
+    - images/ic_search.png
+    - images/ic_shopping_cart.png
 
   #   - images/a_dot_ham.jpeg
 

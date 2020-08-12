@@ -9,6 +9,7 @@ class Products with ChangeNotifier {
       title: 'Salon Cutting Edge',
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
+      rating: 5,
       imageUrl:
           'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
       image: 'assets/images/image5.jpg',
@@ -18,6 +19,7 @@ class Products with ChangeNotifier {
       title: 'Salon Ace of Fades',
       description: 'A nice pair of trousers.',
       price: 59.99,
+      rating: 4.5,
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
       image: 'assets/images/salon_image.jpg',
@@ -27,6 +29,7 @@ class Products with ChangeNotifier {
       title: 'Salon Upper Cuts',
       description: 'Warm and cozy - exactly what you need for the winter.',
       price: 19.99,
+      rating: 4.5,
       imageUrl:
           'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
       image: 'assets/images/image2.jpg',
@@ -36,6 +39,7 @@ class Products with ChangeNotifier {
         title: 'Salon Curl Me Crazy',
         description: 'Prepare any meal you want.',
         price: 49.99,
+        rating: 4,
         imageUrl:
             'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
         image: 'assets/images/image4.jpg'),

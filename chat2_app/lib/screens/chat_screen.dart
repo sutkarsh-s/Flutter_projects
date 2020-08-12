@@ -56,7 +56,8 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ],
             onChanged: (itemIdentifier) {
-              if (itemIdentifier == 'logout') {
+              // if (itemIdentifier == 'logout')
+               {
                 FirebaseAuth.instance.signOut();
               }
             },

@@ -7,7 +7,7 @@ import 'package:baarbo/screens/search_store_screen.dart';
 import './screens/cart_screen.dart';
 import './screens/settings_screen.dart';
 import 'package:provider/provider.dart';
-import './screens/account_screen.dart';
+import './screens/profile_screen.dart';
 import './screens/contact_screen.dart';
 import './screens/home_overview_screen.dart';
 import './screens/home_detail_screen.dart';
@@ -117,7 +117,17 @@ class Home extends StatelessWidget {
                   return SplashScreen();
                 }
                 if (userSnapshot.hasData) {
-                  return ProductsOverviewScreen();
+                  //   return ProductsOverviewScreen();
+                  // }
+                  if (userSnapshot.data.providerData.length == 1) {
+                    // logged in using email and password
+                    return userSnapshot.data.isEmailVerified
+                        ? ProductsOverviewScreen()
+                        : AuthScreen();
+                  } else {
+                    // logged in using other providers
+                    return ProductsOverviewScreen();
+                  }
                 }
                 // return LoginScreen();
                 return AuthScreen();
@@ -131,12 +141,13 @@ class Home extends StatelessWidget {
             CouponsScreen.routeName: (ctx) => CouponsScreen(),
             SettingsScreen.routeName: (ctx) => SettingsScreen(),
             ContactScreen.routeName: (ctx) => ContactScreen(),
-            AccountScreen.routeName: (ctx) => AccountScreen(),
+            ProfileScreen.routeName: (ctx) => ProfileScreen(),
             AuthScreen.routeName: (ctx) => AuthScreen(),
             TabsScreen.routeName: (ctx) => TabsScreen(),
             SearchStore.routeName: (ctx) => SearchStore(),
             OptionItem.routeName: (ctx) => OptionItem(),
             SalonScreen.routeName: (ctx) => SalonScreen(),
+            ProfileScreenTab.routeName: (ctx) => ProfileScreenTab(),
           }),
     );
   }

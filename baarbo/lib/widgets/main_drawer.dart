@@ -1,5 +1,6 @@
 // import 'package:baarbo/screens/home_detail_screen.dart';
 // import 'package:baarbo/screens/home_overview_screen.dart';
+// import 'package:baarbo/screens/auth_screen2.dart';
 import 'package:baarbo/screens/home_overview_screen.dart';
 // import 'package:baarbo/screens/tabs_screen.dart';
 // import 'package:baarbo/screens/tabs_screen.dart';
@@ -9,11 +10,12 @@ import '../screens/cart_screen.dart';
 import '../screens/settings_screen.dart';
 //import '../screens/home_overview_screen.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/auth_screen2.dart';
+// import '../screens/auth_screen2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MainDrawer extends StatelessWidget {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  
   Widget buildListTile(
       String title, IconData icon, String itemIdentifier, Function tapHandler) {
     return ListTile(
@@ -33,8 +35,34 @@ class MainDrawer extends StatelessWidget {
     );
   }
 
+    Widget buildListtile(
+      String title, IconData icon) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        size: 36,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontFamily: 'RobotoCondensed',
+          fontSize: 16,
+          color: Colors.white,
+        ),
+      ),
+      onTap: _signOut,
+    );
+  }
+
+Future<void> _signOut() async {
+    // await storage.deleteAll();
+    // GoogleSignIn().signOut();
+    FirebaseAuth.instance.signOut(); 
+    // firebaseUser =  await _firebaseAuth.currentUser(); 
+  }
   @override
   Widget build(BuildContext context) {
+    
     return Drawer(
       child: Container(
         color: Colors.red[900],
@@ -111,12 +139,19 @@ class MainDrawer extends StatelessWidget {
               Navigator.of(context)
                   .pushReplacementNamed(SettingsScreen.routeName);
             }),
-            buildListTile('Logout', Icons.exit_to_app, 'logout', () {
-              // if (itemIdentifier == 'logout')
-              {
-                FirebaseAuth.instance.signOut();
-              }
-            }),
+            buildListtile('Logout', Icons.exit_to_app
+    //         , Future <AuthScreen> () async {
+    //           {
+                
+    // await _firebaseAuth.signOut();
+    // return AuthScreen();
+
+    // return new LoginPage();
+// }
+                
+              
+//             }
+            ),
             SizedBox(
               height: 200,
             ),

@@ -108,7 +108,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .collection('users')
             .document(authResult.user.uid)
             .setData({
-          'username': username,
+          'displayName': username,
           'email': email,
           'phonenumber': phonenumber,
         });

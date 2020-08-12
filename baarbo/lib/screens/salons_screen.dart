@@ -1,14 +1,53 @@
+import 'package:baarbo/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../widgets/main_drawer.dart';
 import '../extra-files/red_button.dart';
 import '../extra-files/custom_container.dart';
 import '../screens/tabs_screen.dart';
+// import 'package:date_format/date_format.dart';
+import 'package:intl/intl.dart';
+// import 'package:intl/date_symbol_data_local.dart';
 // import 'package:provider/provider.dart';
 // import '../providers/products.dart';
 
-class SalonScreen extends StatelessWidget {
+class SalonScreen extends StatefulWidget {
   static const routeName = '/salon-screen';
+
+  @override
+  _SalonScreenState createState() => _SalonScreenState();
+}
+
+class _SalonScreenState extends State<SalonScreen> {
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay _time = TimeOfDay.now();
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+
+    if (picked != null && picked != _time) {
+      print('Time selected: ${_time.toString()}');
+      setState(() {
+        _time = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +57,9 @@ class SalonScreen extends StatelessWidget {
     //   context,
     //   listen: false,
     // ).findById(optionId);
+    String day = DateFormat('EEEE').format(selectedDate);
+    print(day);
+
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return SafeArea(
@@ -103,24 +145,28 @@ class SalonScreen extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: RoundedButton(
-                                  textVerticalPadding: 10,
-                                  extVerticalPadding: 0,
-                                  colorWeWant: kBrownWeWant,
-                                  title: 'SUNDAY',
-                                  textHorizontalPadding: 15,
-                                  extHorizontalPadding: 18),
+                                textVerticalPadding: 10,
+                                extVerticalPadding: 0,
+                                colorWeWant: Colors.teal[400],
+                                title: day,
+                                textHorizontalPadding: 15,
+                                extHorizontalPadding: 18,
+                              ),
                             ),
                             Expanded(
                               flex: 1,
                               child: RoundedButton(
                                 textVerticalPadding: 10,
                                 extVerticalPadding: 5,
-                                colorWeWant: kRedWeWant,
-                                title: 'JULY 20',
+                                colorWeWant: Colors.teal[400],
+                                title: '${_time.toString()}'
+                                    .split('(')[1]
+                                    .split(')')[0],
                                 textHorizontalPadding: 0,
                                 extHorizontalPadding: 18,
+                                onPressed: () => _selectTime(context),
                               ),
                             ),
                           ],
@@ -128,10 +174,11 @@ class SalonScreen extends StatelessWidget {
                         RoundedButton(
                           textVerticalPadding: 0,
                           extVerticalPadding: 10,
-                          colorWeWant: Colors.black,
-                          title: '6:00 PM',
+                          colorWeWant: Colors.blue[900],
+                          title: "${selectedDate.toLocal()}".split(' ')[0],
                           textHorizontalPadding: 20,
                           extHorizontalPadding: 20,
+                          onPressed: () => _selectDate(context),
                         ),
                       ],
                     ),
@@ -151,7 +198,9 @@ class SalonScreen extends StatelessWidget {
                 extHorizontalPadding: 50.0,
                 title: 'Continue',
                 textHorizontalPadding: 20,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
               ),
             ],
           ),

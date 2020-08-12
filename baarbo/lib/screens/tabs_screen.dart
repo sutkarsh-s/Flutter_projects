@@ -4,7 +4,7 @@ import '../widgets/main_drawer.dart';
 import '../constants.dart';
 
 import './contact_screen.dart';
-import './account_screen.dart';
+import 'profile_screen.dart';
 import './coupons_screen.dart';
 import '../screens/search_store_screen.dart';
 //import '../widgets/home.dart';
@@ -36,8 +36,8 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': 'Contact',
       },
       {
-        'page': AccountScreen(),
-        'title': 'Account',
+        'page': ProfileScreenTab(),
+        'title': 'Profile',
       },
     ];
 
@@ -130,7 +130,7 @@ class _TabsScreenState extends State<TabsScreen> {
               Icons.account_circle,
               color: Colors.black,
             ),
-            title: Text('Account'),
+            title: Text('Profile'),
           ),
         ],
       ),
